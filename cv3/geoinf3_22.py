@@ -1,10 +1,12 @@
 #Graph definition
 import operator
 from operator import *
-from math import *
+import math
 
 #Nodes
 U = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+#Edges
 H = [
     [1, 2, 8],
     [1, 3, 4],
@@ -45,7 +47,7 @@ def mst (U,H):
     T = []
     wt = 0
     p = [-1]*(len(U)+1)
-    r = [inf] * (len(U) + 1)
+    r = [0] * (len(U) + 1)
 
     #Make set
     for u in U:
@@ -59,10 +61,11 @@ def mst (U,H):
     for h in HS:
         u, v, w = h
 
-        #Nodes are in different trees
+        #Are nodes in different trees?
         if findpc(u, p) != findpc(v, p):
             #Merge two subtrees
-            union(u, v, p)
+            #union(u, v, p)
+            wunion(u, v, p, r)
 
             #Add edge to spanning tree
             T.append(h)
@@ -118,8 +121,8 @@ def wunion (u, v, p, r):
 
     else:
         p[root_v] = root_u
-        r[root_u] +=1
+        r[root_u] += 1
 
-
+#Sample
 tree, tree_weight = mst(U, H)
 print(tree, tree_weight)
