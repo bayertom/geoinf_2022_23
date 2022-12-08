@@ -41,6 +41,7 @@ H = [
     ]
 
 def mst (U,H):
+    #Minimum spanning tree by Kruskal
     T = []
     wt = 0
     p = [-1]*(len(U)+1)
@@ -54,7 +55,7 @@ def mst (U,H):
     #Sort edges according to w
     HS = sorted(H, key=itemgetter(2))
 
-    # Proccess edges according to w
+    #Proccess edges according to w
     for h in HS:
         u, v, w = h
 
@@ -71,33 +72,32 @@ def mst (U,H):
 
     return T, wt
 
-#Find root (no compression)
 def find (u, p):
+    #Find root (no compression)
     while (p[u] != u):
         u = p[u]
 
     return u
 
 def findpc (u, p):
-    #find root
+    #Find root (path compression)
     root = find(u,p)
 
-    # reconnect nodes to root
+    #Reconnect nodes to root
     while u != root:
         #Store parent
         pu = p[u]
 
-
         #Reconnect u to root
         p[u] = root
 
-        #Continue from parent
+        #Continue from u parent
         u = pu
 
     return root
 
-#union of two subtrees
 def union (u, v, p):
+    #Union of two subtrees
     root_u = findpc(u, p)
     root_v = findpc (v, p)
 
@@ -105,14 +105,17 @@ def union (u, v, p):
     p[root_u] = root_v
 
 def wunion (u, v, p, r):
+    #Weighted union of two subtrees
     root_u = findpc(u, p)
     root_v = findpc (v, p)
 
     #Merge two subtrees
     if r[root_u] > r[root_v]:
         p[root_v] = root_u
+
     elif r[root_v] > r[root_u]:
         p[root_u] = root_v
+
     else:
         p[root_v] = root_u
         r[root_u] +=1
